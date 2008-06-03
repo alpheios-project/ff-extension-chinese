@@ -1,0 +1,9 @@
+content melampus-chinese jar:chrome/melampus-chinese.jar!/content/
+content melampus-chinese jar:chrome/melampus-chinese.jar!/content/ contentaccessible=yes
+locale	melampus-chinese	en-US		jar:chrome/melampus-chinese.jar!/locale/en-US/
+skin	melampus-chinese	classic/1.0	jar:chrome/melampus-chinese.jar!/skin/
+
+overlay chrome://melampus/content/melampus-overlay.xul    chrome://melampus-chinese/content/melampus-chinese.xul
+overlay chrome://melampus/content/melampus-prefs.xul    chrome://melampus-chinese/content/melampus-chinese-prefs.xul
+style   chrome://global/content/customizeToolbar.xul    chrome://melampus-chinese/skin/melampus-chinese.css
+

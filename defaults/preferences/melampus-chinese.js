@@ -1,0 +1,11 @@
+pref("extensions.melampus.chinese.usemhttpd", false);
+pref("extensions.melampus.chinese.chromepkg","melampus-chinese");
+pref("extensions.melampus.chinese.base_unit","character");
+pref("extensions.melampus.chinese.context_forward",12);
+//pref("extensions.melampus.chinese.shift_handler","showDeclensionTable");
+//pref("extensions.melampus.chinese.context_handler","grammarContext");
+//pref("extensions.melampus.chinese.methods.convert",'chinese_to_ascii');
+pref("extensions.melampus.chinese.methods.lexicon",'lookupDictionary');
+pref("extensions.melampus.chinese.methods.startup",'loadDictionary');
+pref("extensions.melampus.chinese.languagecode","zh");            
+pref("extensions.melampus.chinese.popuptrigger","mousemove");            

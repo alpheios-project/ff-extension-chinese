@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE window SYSTEM "chrome://melampus-chinese/locale/melampus-chinese.dtd">
+
+<overlay id="melampus-chinese-overlay" 
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script type="application/x-javascript" src="chrome://melampus-chinese/content/melampus-chinese-langtool.js" />
+    <script type="application/x-javascript" src="chrome://melampus-chinese/content/melampus-chinese-dict.js" />
+    <menupopup id="melampus-lang-popup-cm">
+        <menuitem id="melampus-cm-lang-chinese"
+                  label="&melampus.lang.chinese;"
+                  value="chinese"
+                  type="checkbox"
+                  hidden="false"/>
+    </menupopup>
+    <menupopup id="melampus-lang-popup-tm">
+        <menuitem id="melampus-tm-lang-chinese"
+                  label="&melampus.lang.chinese;"
+                  value="chinese"
+                  type="checkbox"
+                  hidden="false"/>
+    </menupopup>  
+</overlay>
