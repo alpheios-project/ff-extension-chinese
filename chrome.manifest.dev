@@ -1,8 +1,8 @@
-content melampus-chinese chrome/content/
-content melampus-chinese chrome/content/ contentaccessible=yes
-locale	melampus-chinese	en-US		chrome/locale/en-US/
-skin	melampus-chinese	classic/1.0	chrome/skin/
+content alpheios-chinese chrome/content/
+content alpheios-chinese chrome/content/ contentaccessible=yes
+locale	alpheios-chinese	en-US		chrome/locale/en-US/
+skin	alpheios-chinese	classic/1.0	chrome/skin/
 
-overlay	chrome://melampus/content/melampus-overlay.xul	chrome://melampus-chinese/content/melampus-chinese.xul
-overlay chrome://melampus/content/melampus-prefs.xul    chrome://melampus-chinese/content/melampus-chinese-prefs.xul
-style	chrome://global/content/customizeToolbar.xul	chrome://melampus-chinese/skin/melampus-chinese.css
+overlay	chrome://alpheios/content/alpheios-overlay.xul	chrome://alpheios-chinese/content/alpheios-chinese.xul
+overlay chrome://alpheios/content/alpheios-prefs.xul    chrome://alpheios-chinese/content/alpheios-chinese-prefs.xul
+style	chrome://global/content/customizeToolbar.xul	chrome://alpheios-chinese/skin/alpheios-chinese.css
