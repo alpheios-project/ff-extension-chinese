@@ -1,5 +1,5 @@
 /**
- * @fileoverview MP.ChineseDict - adaptation of PeraPera-Kun's cpkdata.js
+ * @fileoverview Alph.ChineseDict - adaptation of PeraPera-Kun's cpkdata.js
  *  
  * @author
  * <pre>
@@ -29,21 +29,21 @@
  */
 
 /**
- * @class MP.ChineseDict contains the Chinese dictionary lookup functionality.
+ * @class Alph.ChineseDict contains the Chinese dictionary lookup functionality.
  * @constructor
  *
  * @param {boolean} a_loadNames whether to load names dictionary
  */
-MP.ChineseDict = function (a_loadNames)
+Alph.ChineseDict = function (a_loadNames)
 {
-    MP.util.log("Loading Chinese");
+    Alph.util.log("Loading Chinese");
 
     this.loadDictionary();
     if (a_loadNames)
         this.loadNames();
 }
 
-MP.ChineseDict.prototype =
+Alph.ChineseDict.prototype =
 {
 
     /**
@@ -113,23 +113,23 @@ MP.ChineseDict.prototype =
     loadDictionary: function()
     {
         this.wordDict =
-            this.fileRead("chrome://melampus-chinese/content/adso.dat",
+            this.fileRead("chrome://alpheios-chinese/content/adso.dat",
                           "UTF-8");
 
         this.wordIndexSimp =
-            this.fileRead("chrome://melampus-chinese/content/simp.idx",
+            this.fileRead("chrome://alpheios-chinese/content/simp.idx",
                           "UTF-8");
         if (this.wordIndexSimp[this.wordIndexSimp.length - 1] != '\n')
             this.wordIndexSimp += '\n';
 
         this.wordIndexTrad =
-            this.fileRead("chrome://melampus-chinese/content/trad.idx",
+            this.fileRead("chrome://alpheios-chinese/content/trad.idx",
                           "UTF-8");
         if (this.wordIndexTrad[this.wordIndexTrad.length - 1] != '\n')
             this.wordIndexTrad += '\n';
 
         this.hanziData =
-            this.fileRead("chrome://melampus-chinese/content/hanzi.dat",
+            this.fileRead("chrome://alpheios-chinese/content/hanzi.dat",
                           "UTF-8");
         if (this.hanziData[this.hanziData.length - 1] != '\n')
             this.hanziData += '\n';
@@ -341,14 +341,14 @@ MP.ChineseDict.prototype =
      * found, the function tries to find the first character in the hanzi
      * data file.  If nothing is found there, the function will return
      * an <unknown> element.
-     * @param {MP.SourceSelection} a_mptarget object containing the selected word and context 
-     *                                        as returned by {@link MP.LanguageTool#findSelection}
+     * @param {Alph.SourceSelection} a_alphtarget object containing the selected word and context 
+     *                                        as returned by {@link Alph.LanguageTool#findSelection}
      *
      * @return dictionary entry in XML format (following lexicon schema)
      *         or -1 in case of lookup error
      *         
      */
-    lookup: function(a_mptarget)
+    lookup: function(a_alphtarget)
     {
         // results array
         var rs = [];
@@ -356,7 +356,7 @@ MP.ChineseDict.prototype =
         // prepare for lookup loop
         // because only context forward is set,
         // the selected char will always be at position 0
-        cpWord = a_mptarget.getContext();
+        cpWord = a_alphtarget.getContext();
         count = 0;
         format = "simp";
         var lines;
@@ -508,7 +508,7 @@ MP.ChineseDict.prototype =
         }
 
         // add character info
-        hanziOut = this.hanziInfo(a_mptarget.getWord());
+        hanziOut = this.hanziInfo(a_alphtarget.getWord());
         if (hanziOut.length)
         {
             if (count == 0)
@@ -516,7 +516,7 @@ MP.ChineseDict.prototype =
             xmlOut += hanziOut;
         }
         else
-            return "<unknown>" + a_mptarget.getWord() + "</unknown>";
+            return "<unknown>" + a_alphtarget.getWord() + "</unknown>";
 
         // terminate output
         xmlOut += "</word>";
