@@ -1,17 +1,17 @@
 <?xml version="1.0" ?>
 
-<project name="melampus-chinese" default="package" basedir=".">
+<project name="alpheios-chinese" default="package" basedir=".">
 	<property name="src.dir" value="." />
 	<property name="dist.dir" value="dist" />
     <property name="docs.dir" value="docs/api" />
     <property name="perl.path" value="C:/perl/bin/perl.exe" />
     <property name="jsdoc.path" value="C:/JSDoc-1.10.2/jsdoc.pl" />
-	<property name="app.name" value="melampus-chinese" />
+	<property name="app.name" value="alpheios-chinese" />
 	<property name="ff.test.dir" value="/test" />
 	<property name="ext.test.dir" 
 	          value="${ff.test.dir}/extensions/${app.name}" />
 	<property name="deploy.dir"
-              value="/Program Files/Apache Group/Apache2/htdocs/melampus" />
+              value="/Program Files/Apache Group/Apache2/htdocs/alpheios" />
 	<property name="docs.deploy.dir" value="/test/docs/${app.name}"/>
 	<property name="release.id" value="0.1" />
 	<property name="svnant.lib.dir" value="/svnant-1.0.0"/>
@@ -246,7 +246,7 @@
     <target name="prepare.docs">
         <mkdir dir="${docs.dir}" />
         <exec dir="${src.dir}" executable="${perl.path}">
-            <arg line="${jsdoc.path} -p -d ${docs.dir} -project-name 'Melampus Chinese Tools' --no-lexical-privates content"/>
+            <arg line="${jsdoc.path} -p -d ${docs.dir} -project-name 'Alpheios Chinese Tools' --no-lexical-privates content"/>
         </exec>
     </target>
     
