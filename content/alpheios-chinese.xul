@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE window SYSTEM "chrome://alpheios-chinese/locale/alpheios-chinese.dtd">
+
+<overlay id="alpheios-chinese-overlay" 
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script type="application/x-javascript" src="chrome://alpheios-chinese/content/alpheios-chinese-langtool.js" />
+    <script type="application/x-javascript" src="chrome://alpheios-chinese/content/alpheios-chinese-dict.js" />
+    <menupopup id="alpheios-lang-popup-cm">
+        <menuitem id="alpheios-cm-lang-chinese"
+                  label="&alpheios.lang.chinese;"
+                  value="chinese"
+                  type="checkbox"
+                  hidden="false"/>
+    </menupopup>
+    <menupopup id="alpheios-lang-popup-tm">
+        <menuitem id="alpheios-tm-lang-chinese"
+                  label="&alpheios.lang.chinese;"
+                  value="chinese"
+                  type="checkbox"
+                  hidden="false"/>
+    </menupopup>  
+</overlay>

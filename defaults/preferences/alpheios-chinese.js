@@ -1,0 +1,11 @@
+pref("extensions.alpheios.chinese.usemhttpd", false);
+pref("extensions.alpheios.chinese.chromepkg","alpheios-chinese");
+pref("extensions.alpheios.chinese.base_unit","character");
+pref("extensions.alpheios.chinese.context_forward",12);
+//pref("extensions.alpheios.chinese.shift_handler","showDeclensionTable");
+//pref("extensions.alpheios.chinese.context_handler","grammarContext");
+//pref("extensions.alpheios.chinese.methods.convert",'chinese_to_ascii');
+pref("extensions.alpheios.chinese.methods.lexicon",'lookupDictionary');
+pref("extensions.alpheios.chinese.methods.startup",'loadDictionary');
+pref("extensions.alpheios.chinese.languagecode","zh");            
+pref("extensions.alpheios.chinese.popuptrigger","mousemove");            
