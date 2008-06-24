@@ -82,7 +82,7 @@ function(a_alphtarget,a_onsuccess,a_onerror)
  */
 Alph.LanguageToolSet.chinese.prototype.postTransform = function(a_node)
 {
-    $(".alph-hdwd",a_node).attr("lang",Alph.util.getPref("languagecode",this.source_language));
-    $(".alph-mean",a_node).attr("lang",'en');
+    Alph.$(".alph-hdwd",a_node).attr("lang",Alph.util.getPref("languagecode",this.source_language));
+    Alph.$(".alph-mean",a_node).attr("lang",'en');
 
 }
