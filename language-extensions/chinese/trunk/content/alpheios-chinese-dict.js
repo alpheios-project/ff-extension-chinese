@@ -500,7 +500,7 @@ Alph.ChineseDict.prototype =
             // add this entry to output
             xmlOut += "<entry>"
                    +    "<dict>"
-                   +      "<hdwd>" + hanzi + "</hdwd>"
+                   +      "<hdwd xml:lang=\"chi\">" + hanzi + "</hdwd>"
                    +      "<pron>" + pinyin + "</pron>"
                    +    "</dict>"
                    +    "<mean>" + def + "</mean>"
@@ -722,7 +722,7 @@ Alph.ChineseDict.prototype =
             return "";
 
         xmlOut = "<entry><dict>";
-        xmlOut += "<hdwd>" + a_hanzi + "</hdwd>";
+        xmlOut += "<hdwd xml:lang=\"chi\">" + a_hanzi + "</hdwd>";
         if (mand.length > 0)
             xmlOut += "<pron>" + mand + "</pron>";
         if (cant.length > 0)
