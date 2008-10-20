@@ -23,7 +23,7 @@
 		<em:iconURL></em:iconURL>
 		<em:homepageURL></em:homepageURL>
 		<em:optionsURL>chrome://alpheios/content/alpheios-prefs.xul</em:optionsURL>
-		<em:updateURL>http://repository.harrysdell.com:8085/xpi-updates/update.rdf</em:updateURL>
+		<em:updateURL>http://dev.alpheios.net:8085/xpi-updates/update.rdf</em:updateURL>
 		<em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDOd5Mjthp4ZkEF0g6sF6fHbUb92PJTSSPxjjdsuDOXG9dUTVwIDjW183lTZawP7+4E8PmUeqVl5GCjKRCAhAXmSV+X/IYgSuiTOTjuXUJ/ylA9EGSo2dHVeGJ834XIKe5NK7NL08EFxst58vCASTViuMv5GpeIYtPvbj7PyXJ82QIDAQAB</em:updateKey>
         <em:requires>
             <Description>
