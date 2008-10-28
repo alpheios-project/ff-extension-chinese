@@ -45,44 +45,6 @@ Alph.ChineseDict = function (a_loadNames)
 
 Alph.ChineseDict.prototype =
 {
-
-    /**
-     * read file from URL
-     * 
-     * If a_charset is specified, the input is converted from that character
-     * set to Unicode.
-     * 
-     * @param {String} a_url URL to read
-     * @param {String} a_charset character set (or null for no conversion)
-     * 
-     * @returns contents of URL converted to specified character set
-     * @type String
-     */
-    fileRead: function(a_url, a_charset)
-    {
-        var ios = Components.classes["@mozilla.org/network/io-service;1"]
-                            .getService(Components.interfaces.nsIIOService);
-        var ss = Components.classes["@mozilla.org/scriptableinputstream;1"]
-                           .getService(Components.interfaces
-                                                 .nsIScriptableInputStream);
-        var ch = ios.newChannel(a_url, null, null);
-        var inp = ch.open();
-        ss.init(inp);
-        var buffer = ss.read(inp.available());
-        ss.close();
-        inp.close();
-
-        if (!a_charset)
-            return buffer;
-
-        var conv =
-            Components.classes['@mozilla.org/intl/scriptableunicodeconverter']
-                      .createInstance(Components.interfaces
-                                                .nsIScriptableUnicodeConverter);
-        conv.charset = a_charset;
-        return conv.ConvertToUnicode(buffer);
-    },
-
     /**
      * load names dictionary
      */
@@ -90,10 +52,12 @@ Alph.ChineseDict.prototype =
     {
         if ((this.nameDict) && (this.nameIndex))
             return;
-        this.nameDict = this.fileRead(rcxNamesDict.datURI,
-                                      rcxNamesDict.datCharset);
-        this.nameIndex = this.fileRead(rcxNamesDict.idxURI,
-                                       rcxNamesDict.idxCharset);
+        this.nameDict = new Alph.Datafile(rcxNamesDict.datURI,
+                                          rcxNamesDict.datCharset,
+                                          ",");
+        this.nameIndex = new Alph.Datafile(rcxNamesDict.idxURI,
+                                           rcxNamesDict.idxCharset,
+                                           ",");
     },
 
     /**
@@ -106,142 +70,23 @@ Alph.ChineseDict.prototype =
      * trad.idx    index of entries using traditional characters
      * hanzi.dat   character information
      * </pre>
-     * 
-     * Make sure that the last line in index files and hanzi file are
-     * newline-terminated or else binary search might fail.
      */
     loadDictionary: function()
     {
+        /* just get data from adso.dat - we don't need lookup here */
         this.wordDict =
-            this.fileRead("chrome://alpheios-chinese/content/adso.dat",
-                          "UTF-8");
+            new Alph.Datafile("chrome://alpheios-chinese/content/adso.dat",
+                              "UTF-8", null).getData();
 
         this.wordIndexSimp =
-            this.fileRead("chrome://alpheios-chinese/content/simp.idx",
-                          "UTF-8");
-        if (this.wordIndexSimp[this.wordIndexSimp.length - 1] != '\n')
-            this.wordIndexSimp += '\n';
-
+            new Alph.Datafile("chrome://alpheios-chinese/content/simp.idx",
+                              "UTF-8", ",");
         this.wordIndexTrad =
-            this.fileRead("chrome://alpheios-chinese/content/trad.idx",
-                          "UTF-8");
-        if (this.wordIndexTrad[this.wordIndexTrad.length - 1] != '\n')
-            this.wordIndexTrad += '\n';
-
+            new Alph.Datafile("chrome://alpheios-chinese/content/trad.idx",
+                              "UTF-8", ",");
         this.hanziData =
-            this.fileRead("chrome://alpheios-chinese/content/hanzi.dat",
-                          "UTF-8");
-        if (this.hanziData[this.hanziData.length - 1] != '\n')
-            this.hanziData += '\n';
-    },
-
-    /**
-     * do binary search in data
-     * 
-     * The data is assumed to be a sorted collection of newline-separated
-     * lines.  The key being searched for must be at the start of the line.
-     * The caller is responsible for appending any separator needed to
-     * uniquely identify the key.
-     * 
-     * Multiple lines with the same key are allowed.  The offset of the first
-     * such line will be returned.
-     *
-     * @param {String} a_data  data to search
-     * @param {String} a_key   key to search for
-     * 
-     * @return offset of key in data or -1 if not found
-     * @type int
-     */
-    binarySearch: function(a_data, a_key)
-    {
-        const tlen = a_key.length;
-        var mid;
-        var midStr;
-
-        // start with entire range of data
-        var beg = 0;
-        var end = a_data.length - 1;
-
-        // while data still remains
-        while (beg < end)
-        {
-            // find line containing midpoint of remaining data
-            mid = a_data.lastIndexOf('\n', (beg + end) >> 1) + 1;
-            midStr = a_data.substr(mid, tlen);
-
-            // if too high, restrict to first half
-            if (a_key < midStr)
-                end = mid - 1;
-            // if too low, restrict to second half
-            else if (a_key > midStr)
-                beg = a_data.indexOf('\n', mid) + 1;
-            // if equal, done
-            else
-                break;
-        }
-
-        // if found, back up to first line with key
-        if (beg < end)
-        {
-            // while non-empty preceding line exists
-            while (mid >= 2)
-            {
-                // find start of preceding line
-                prec = a_data.lastIndexOf('\n', mid - 2) + 1;
-
-                // if preceding line has different key then done,
-                // else back up to preceding line
-                midStr = a_data.substr(prec, tlen);
-                if (a_key != midStr)
-                    break;
-                mid = prec;
-            }
-
-            return mid;
-        }
-
-        // not found
-        return -1;
-    },
-
-    /**
-     * find data by key
-     *
-     * The data is assumed to be suitable for search using #binarySearch
-     * 
-     * @param {String} a_data   data to search
-     * @param {String} a_key    key to search for
-     * 
-     * @returns subset of data matching key, else null
-     * @type String
-     *
-     */
-    findData: function(a_data, a_key)
-    {
-        // if key not found at all, return empty string
-        start = this.binarySearch(a_data, a_key);
-        if (start == -1)
-            return null;
-
-        const tlen = a_key.length;
-        end = start;
-
-        // while more lines remain
-        while (end < a_data.length)
-        {
-            // find start of next line
-            end = a_data.indexOf('\n', end) + 1;
-            if (end == 0)
-                end = a_data.length;
-
-            // if next line has different key then done,
-            // else include this line in output
-            test = a_data.substr(end, tlen);
-            if (a_key != test)
-                break;
-        }
-
-        return a_data.substring(start, end);
+            new Alph.Datafile("chrome://alpheios-chinese/content/hanzi.dat",
+                              "UTF-8", "\t");
     },
 
     /**
@@ -367,17 +212,14 @@ Alph.ChineseDict.prototype =
         // use test "cpWord.length > 0"
         while (cpWord.length > 1)
         {
-            // add comma to force exact match in index
-            cpWord += ",";
-
             // if last successful lookup was simplified
             if (format == "simp")
             {
-                lines = this.findData(this.wordIndexSimp, cpWord);
+                lines = this.wordIndexSimp.findData(cpWord);
                 if (!lines)
                 {
                     // if simplified failed, try traditional
-                    lines = this.findData(this.wordIndexTrad, cpWord);
+                    lines = this.wordIndexTrad.findData(cpWord);
                     if (lines)
                         format = "trad";
                 }
@@ -385,11 +227,11 @@ Alph.ChineseDict.prototype =
             // if last successful lookup was traditional
             else
             {
-                lines = this.findData(this.wordIndexTrad, cpWord);
+                lines = this.wordIndexTrad.findData(cpWord);
                 if (!lines)
                 {
                     // if traditional failed, try simplified
-                    lines = this.findData(this.wordIndexSimp, cpWord);
+                    lines = this.wordIndexSimp.findData(cpWord);
                     if (lines)
                         format = "simp";
                 }
@@ -433,8 +275,8 @@ Alph.ChineseDict.prototype =
                 }
             }
 
-            // shorten word by removing last character (and comma we added)
-            cpWord = cpWord.substring(0, cpWord.length - 2);
+            // shorten word by removing last character
+            cpWord = cpWord.substring(0, cpWord.length - 1);
         }
 
         // as of now dictionary has lots of exact duplicates, eliminate them
@@ -681,7 +523,7 @@ Alph.ChineseDict.prototype =
     {
         // find lines matching this character
         unicode = this.unicodeInfo(a_hanzi);
-        lines = this.findData(this.hanziData, unicode + '\t');
+        lines = this.hanziData.findData(unicode);
         if (!lines)
             return "";
 
