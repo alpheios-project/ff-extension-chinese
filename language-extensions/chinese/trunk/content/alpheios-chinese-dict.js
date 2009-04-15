@@ -53,11 +53,11 @@ Alph.ChineseDict.prototype =
         if ((this.nameDict) && (this.nameIndex))
             return;
         this.nameDict = new Alph.Datafile(rcxNamesDict.datURI,
-                                          rcxNamesDict.datCharset,
-                                          ",");
+                                          rcxNamesDict.datCharset);
+        this.nameDict.setSeparator(",");
         this.nameIndex = new Alph.Datafile(rcxNamesDict.idxURI,
-                                           rcxNamesDict.idxCharset,
-                                           ",");
+                                           rcxNamesDict.idxCharset);
+        this.nameIndex.setSeparator(",");
     },
 
     /**
@@ -76,17 +76,20 @@ Alph.ChineseDict.prototype =
         /* just get data from adso.dat - we don't need lookup here */
         this.wordDict =
             new Alph.Datafile("chrome://alpheios-chinese/content/adso.dat",
-                              "UTF-8", null).getData();
+                              "UTF-8").getData();
 
         this.wordIndexSimp =
             new Alph.Datafile("chrome://alpheios-chinese/content/simp.idx",
-                              "UTF-8", ",");
+                              "UTF-8");
+        this.wordIndexSimp.setSeparator(",");
         this.wordIndexTrad =
             new Alph.Datafile("chrome://alpheios-chinese/content/trad.idx",
-                              "UTF-8", ",");
+                              "UTF-8");
+        this.wordIndexTrad.setSeparator(",");
         this.hanziData =
             new Alph.Datafile("chrome://alpheios-chinese/content/hanzi.dat",
-                              "UTF-8", "\t");
+                              "UTF-8");
+        this.hanziData.setSeparator("\t");
     },
 
     /**
