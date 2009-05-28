@@ -1,26 +1,32 @@
 <?xml version="1.0"?>
-<!DOCTYPE overlay SYSTEM "chrome://alpheios-chinese/locale/alpheios-chinese-prefs.dtd">
+<!DOCTYPE overlay [ 
+  <!ENTITY % alpheiosDTD SYSTEM "chrome://alpheios/locale/alpheios-prefs.dtd">
+  <!ENTITY % chineseDTD SYSTEM "chrome://alpheios-chinese/locale/alpheios-chinese-prefs.dtd">
+  %alpheiosDTD;
+  %chineseDTD;
+]>
+
 <overlay id="alpheios-chinese-prefs-overlay" 
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <prefwindow id="alpheios-prefs">
-        <!-- add the popup trigger preference the mouse tab in the alpheios prefs -->
-        <prefpane id="alpheios-prefs-mouse">
-            <preferences>
-                <preference id="chinese-pref-trigger" 
-                            name="extensions.alpheios.chinese.popuptrigger" 
-                            type="string"/>
-            </preferences>     
-                <hbox id="alpheios-mouse-hbox">
-                    <groupbox id="alpheios-mouse-group">
-                        <radiogroup preference="chinese-pref-trigger">
-                            <caption label="&alpheios.chinese.prefs.popuptrigger;"/>
-                            <radio label="&alpheios.chinese.prefs.popuptrigger.mousemove;" 
-                                   value="mousemove"/>    
-                             <radio label="&alpheios.chinese.prefs.popuptrigger.dblclick;" 
-                                    value="dblclick"/>
-                         </radiogroup>
-                    </groupbox>
-                </hbox>
-           </prefpane>
-    </prefwindow>
+    
+    <!-- popup trigger preference -->
+    <prefpane id="alpheios-prefs-features">
+        <preferences>
+            <preference id="chinese-pref-trigger" 
+                        name="extensions.alpheios.chinese.popuptrigger" 
+                        type="string"/>
+        </preferences>
+    </prefpane>   
+    
+    <!-- popup trigger selection -->
+     <groupbox id="alpheios-mouse-group">
+        <radiogroup preference="chinese-pref-trigger">
+            <caption label="&alpheios.chinese.prefs.label.trigger;"/>
+            <radio label="&alpheios.prefs.popuptrigger.mousemove;" 
+                   value="mousemove"/>    
+             <radio label="&alpheios.prefs.popuptrigger.dblclick;" 
+                    value="dblclick"/>
+         </radiogroup>
+    </groupbox>
+
 </overlay>
