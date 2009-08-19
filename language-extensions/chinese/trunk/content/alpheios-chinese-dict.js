@@ -298,7 +298,7 @@ Alph.ChineseDict.prototype =
         // start output
         var xmlOut;
         if (count > 0)
-            xmlOut = "<word>";
+            xmlOut = "<word><form xml:lang=\"chi\">"+cpWord+"</form>";
 
         // for each dictionary entry
         for (i = 0; i < count; i++)
@@ -357,7 +357,7 @@ Alph.ChineseDict.prototype =
         if (hanziOut.length)
         {
             if (count == 0)
-                xmlOut = "<word>";
+                xmlOut = "<word><form xml:lang=\"chi\">" + a_alphtarget.getWord() + "</form>";
             xmlOut += hanziOut;
         }
         else
