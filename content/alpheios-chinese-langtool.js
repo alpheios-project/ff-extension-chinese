@@ -3,17 +3,16 @@
  * @version $Id$
  */
 
+Alph.LanguageToolFactory.addLang('chinese','LanguageTool_Chinese');
+
 /**
- * @class  Alph.LanguageToolSet.chinese extends {@link Alph.LanguageTool} to define 
- * Chinese-specific functionality for the alpheios extension.
- * 
- * @constructor 
+ * @class  Alph.LanguageTool_Chinese extends {@link Alph.LanguageTool} 
+ * @extends Alph.LanguageTool
  * @param {String} a_language  the source language for this instance
  * @param {Properties} a_properties additional properties to set as private members of 
  *                                  the object (accessor methods will be dynamically created)
- * @see Alph.LanguageTool
  */
-Alph.LanguageToolSet.chinese = function(a_lang, props) 
+Alph.LanguageTool_Chinese = function(a_lang, props) 
 { 
     Alph.LanguageTool.call(this,a_lang,{});
 };
@@ -21,15 +20,7 @@ Alph.LanguageToolSet.chinese = function(a_lang, props)
 /**
  * @ignore
  */
-Alph.LanguageToolSet.chinese.prototype = new Alph.LanguageTool();
-
-/**
- * Flag to indicate that this class extends Alph.LanguageTool.
- * (Shouldn't be necessary but because they are not packaged in the same extension
- * the instanceof operator won't work.)
- * @type boolean
- */
-Alph.LanguageToolSet.chinese.implementsAlphLanguageTool = true;
+Alph.LanguageTool_Chinese.prototype = new Alph.LanguageTool();
 
 /**
  * Chinese specific startup method in the derived instance which
@@ -38,12 +29,12 @@ Alph.LanguageToolSet.chinese.implementsAlphLanguageTool = true;
  * @returns true if successful, otherwise false
  * @type boolean
  */
-Alph.LanguageToolSet.chinese.prototype.loadDictionary = function()
+Alph.LanguageTool_Chinese.prototype.loadDictionary = function()
 {
     try
     {
-        this.dictionary = new Alph.ChineseDict(false);
-        Alph.util.log("Loaded Chinese dictionary");
+        this.d_dictionary = new Alph.ChineseDict(false);
+        this.s_logger.debug("Loaded Chinese dictionary");
     }
     catch (ex)
     {
@@ -59,11 +50,11 @@ Alph.LanguageToolSet.chinese.prototype.loadDictionary = function()
  * keyed by the preference setting 'extensions.alpheios.chinese.methods.lexicon'
  * @see Alph.LanguageTool#lexiconLookup
  */
-Alph.LanguageToolSet.chinese.prototype.lookupDictionary = 
+Alph.LanguageTool_Chinese.prototype.lookupDictionary = 
 function(a_alphtarget,a_onsuccess,a_onerror)
 {
     var data = 
-        this.dictionary.lookup(a_alphtarget);
+        this.d_dictionary.lookup(a_alphtarget);
     if (typeof data != "undefined")
     {
         a_onsuccess(data);
@@ -80,9 +71,9 @@ function(a_alphtarget,a_onsuccess,a_onerror)
  * Applies the lang attribute to the alph-hdwd and alph-mean tags.
  * TODO - this should be handled in the lexicon schema and xsl stylesheet
  */
-Alph.LanguageToolSet.chinese.prototype.postTransform = function(a_node)
+Alph.LanguageTool_Chinese.prototype.postTransform = function(a_node)
 {
-    Alph.$(".alph-hdwd",a_node).attr("lang",Alph.util.getPref("languagecode",this.source_language));
+    Alph.$(".alph-hdwd",a_node).attr("lang",Alph.BrowserUtils.getPref("languagecode",this.source_language));
     Alph.$(".alph-mean",a_node).attr("lang",'en');
 
 }
