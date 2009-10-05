@@ -36,7 +36,7 @@
  */
 Alph.ChineseDict = function (a_loadNames)
 {
-    Alph.util.log("Loading Chinese");
+    Alph.BrowserUtils.debug("Loading Chinese");
 
     this.loadDictionary();
     if (a_loadNames)
@@ -50,14 +50,14 @@ Alph.ChineseDict.prototype =
      */
     loadNames: function()
     {
-        if ((this.nameDict) && (this.nameIndex))
+        if ((this.d_nameDict) && (this.d_nameIndex))
             return;
-        this.nameDict = new Alph.Datafile(rcxNamesDict.datURI,
+        this.d_nameDict = new Alph.Datafile(rcxNamesDict.datURI,
                                           rcxNamesDict.datCharset);
-        this.nameDict.setSeparator(",");
-        this.nameIndex = new Alph.Datafile(rcxNamesDict.idxURI,
+        this.d_nameDict.setSeparator(",");
+        this.d_nameIndex = new Alph.Datafile(rcxNamesDict.idxURI,
                                            rcxNamesDict.idxCharset);
-        this.nameIndex.setSeparator(",");
+        this.d_nameIndex.setSeparator(",");
     },
 
     /**
@@ -74,22 +74,22 @@ Alph.ChineseDict.prototype =
     loadDictionary: function()
     {
         /* just get data from adso.dat - we don't need lookup here */
-        this.wordDict =
+        this.d_wordDict =
             new Alph.Datafile("chrome://alpheios-chinese/content/adso.dat",
                               "UTF-8").getData();
 
-        this.wordIndexSimp =
+        this.d_wordIndexSimp =
             new Alph.Datafile("chrome://alpheios-chinese/content/simp.idx",
                               "UTF-8");
-        this.wordIndexSimp.setSeparator(",");
-        this.wordIndexTrad =
+        this.d_wordIndexSimp.setSeparator(",");
+        this.d_wordIndexTrad =
             new Alph.Datafile("chrome://alpheios-chinese/content/trad.idx",
                               "UTF-8");
-        this.wordIndexTrad.setSeparator(",");
-        this.hanziData =
+        this.d_wordIndexTrad.setSeparator(",");
+        this.d_hanziData =
             new Alph.Datafile("chrome://alpheios-chinese/content/hanzi.dat",
                               "UTF-8");
-        this.hanziData.setSeparator("\t");
+        this.d_hanziData.setSeparator("\t");
     },
 
     /**
@@ -97,7 +97,7 @@ Alph.ChineseDict.prototype =
      * 
      * @param {String} a_pinyin    pinyin to convert (may be space-separated list)
      *
-     * @return string with accented characters
+     * @returns string with accented characters
      * @type String
      */
     formatPinyin: function(a_pinyin)
@@ -111,10 +111,10 @@ Alph.ChineseDict.prototype =
         const _v = ["\u01D6", "\u01D8", "\u01DA", "\u01DC", "\u00FC"];
 
         a_pinyin = a_pinyin.split(" ");
-        for (j = 0; j < a_pinyin.length; j++)
+        for (var j = 0; j < a_pinyin.length; j++)
         {
-            pin = a_pinyin[j];
-            tone = 4;
+            var pin = a_pinyin[j];
+            var tone = 4;
 
             if (pin.indexOf("1") != - 1)
                 tone = 0;
@@ -133,7 +133,7 @@ Alph.ChineseDict.prototype =
                 pin = pin.replace("o", _o[tone]);
             else
             {
-                for (k = pin.length - 1; k >= 0; k--)
+                for (var k = pin.length - 1; k >= 0; k--)
                 {
                     if (this.isVowel(pin[k]))
                     {
@@ -169,7 +169,7 @@ Alph.ChineseDict.prototype =
      * 
      * @param {String} a_letter        letter to test
      * 
-     * @return true if a vowel, else false
+     * @returns true if a vowel, else false
      * @type boolean
      */
     isVowel: function(a_letter)
@@ -192,7 +192,7 @@ Alph.ChineseDict.prototype =
      * @param {Alph.SourceSelection} a_alphtarget object containing the selected word and context 
      *                                        as returned by {@link Alph.LanguageTool#findSelection}
      *
-     * @return dictionary entry in XML format (following lexicon schema)
+     * @returns dictionary entry in XML format (following lexicon schema)
      *         or -1 in case of lookup error
      *         
      */
@@ -204,9 +204,9 @@ Alph.ChineseDict.prototype =
         // prepare for lookup loop
         // because only context forward is set,
         // the selected char will always be at position 0
-        cpWord = a_alphtarget.getContext();
-        count = 0;
-        format = "simp";
+        var cpWord = a_alphtarget.getContext();
+        var count = 0;
+        var format = "simp";
         var lines;
 
         // for each initial substring of word
@@ -218,11 +218,11 @@ Alph.ChineseDict.prototype =
             // if last successful lookup was simplified
             if (format == "simp")
             {
-                lines = this.wordIndexSimp.findData(cpWord);
+                lines = this.d_wordIndexSimp.findData(cpWord);
                 if (!lines)
                 {
                     // if simplified failed, try traditional
-                    lines = this.wordIndexTrad.findData(cpWord);
+                    lines = this.d_wordIndexTrad.findData(cpWord);
                     if (lines)
                         format = "trad";
                 }
@@ -230,11 +230,11 @@ Alph.ChineseDict.prototype =
             // if last successful lookup was traditional
             else
             {
-                lines = this.wordIndexTrad.findData(cpWord);
+                lines = this.d_wordIndexTrad.findData(cpWord);
                 if (!lines)
                 {
                     // if traditional failed, try simplified
-                    lines = this.wordIndexSimp.findData(cpWord);
+                    lines = this.d_wordIndexSimp.findData(cpWord);
                     if (lines)
                         format = "simp";
                 }
@@ -243,7 +243,7 @@ Alph.ChineseDict.prototype =
             // if entry found
             if (lines)
             {
-                offset = 0;
+                var offset = 0;
 // For now, only use first entry
 // Many repeat entries are essentially but not exactly identical
 // hence check below for duplicates does not eliminate them
@@ -251,27 +251,27 @@ Alph.ChineseDict.prototype =
 //              while (offset < lines.length)
                 {
                     // get next line
-                    nextOffset = lines.indexOf('\n', offset) + 1;
+                    var nextOffset = lines.indexOf('\n', offset) + 1;
                     if (nextOffset == 0)
                         nextOffset = lines.length;
-                    line = lines.substring(offset, nextOffset);
+                    var line = lines.substring(offset, nextOffset);
 
                     // offset in dictionary follows comma in index line
-                    dictOffset = line.substr(line.indexOf(",") + 1);
-                    if (dictOffset > this.wordDict.length)
+                    var dictOffset = line.substr(line.indexOf(",") + 1);
+                    if (dictOffset > this.d_wordDict.length)
                     {
                         // sanity check
                         alert(  "dictionary index error, tried to pull entry "
                               & dictOffset
                               & " from an array size of "
-                              & this.wordDict.length);
+                              & this.d_wordDict.length);
                         return -1;
                     }
 
                     // remember dictionary entry
-                    rs[count++] = this.wordDict.substring(
+                    rs[count++] = this.d_wordDict.substring(
                                         dictOffset,
-                                        this.wordDict.indexOf("\n", dictOffset));
+                                        this.d_wordDict.indexOf("\n", dictOffset));
 
                     // go to next line
                     offset = nextOffset;
@@ -283,11 +283,11 @@ Alph.ChineseDict.prototype =
         }
 
         // as of now dictionary has lots of exact duplicates, eliminate them
-        for (i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
             if (rs[i])
             {
-                for (j = i + 1; j < count; j++)
+                for (var j = i + 1; j < count; j++)
                 {
                     if (rs[i] == rs[j])
                         rs[j] = null;
@@ -304,12 +304,13 @@ Alph.ChineseDict.prototype =
         for (i = 0; i < count; i++)
         {
             // skip eliminated duplicates
-            entry = rs[i];
+            var entry = rs[i];
             if (!entry)
                 continue;
 
             // extract dictionary entry
-            firstBlank = entry.indexOf(" ", 0);
+            var firstBlank = entry.indexOf(" ", 0);
+            var hanzi;
             if (format == "trad")
                 hanzi = entry.substring(0, firstBlank);
             else
@@ -320,12 +321,12 @@ Alph.ChineseDict.prototype =
             }
 
             // extract pinyin
-            pinyin = entry.substring(entry.indexOf("[", 0) + 1,
+            var pinyin = entry.substring(entry.indexOf("[", 0) + 1,
                                      entry.indexOf("]", 0));
 
             // have to add spaces because adso doesn't have them
-            pCopy = "";
-            for (w = 0; w < pinyin.length; w++)
+            var pCopy = "";
+            for (var w = 0; w < pinyin.length; w++)
             {
                 pCopy += pinyin[w];
                 if ((0 <= pinyin[w]) && (pinyin[w] <= 5))
@@ -338,7 +339,7 @@ Alph.ChineseDict.prototype =
             pinyin = this.formatPinyin(pCopy);
 
             // format definition
-            def = entry.substring(entry.indexOf("/", 0) + 1, entry.length);
+            var def = entry.substring(entry.indexOf("/", 0) + 1, entry.length);
             def = def.replace(/\//g, ", ");
             def = def.substring(0, def.length - 3);
 
@@ -353,7 +354,7 @@ Alph.ChineseDict.prototype =
         }
 
         // add character info
-        hanziOut = this.hanziInfo(a_alphtarget.getWord());
+        var hanziOut = this.hanziInfo(a_alphtarget.getWord());
         if (hanziOut.length)
         {
             if (count == 0)
@@ -374,7 +375,7 @@ Alph.ChineseDict.prototype =
      *
      * @param {String} a_c         character to convert
      * 
-     * @return converted value
+     * @returns converted value
      * @type String
      */
     unicodeInfo: function(a_c)
@@ -396,7 +397,7 @@ Alph.ChineseDict.prototype =
      * 
      * @param int a_radical       index of radical
      * 
-     * @return Unicode character for radical
+     * @returns Unicode character for radical
      * @type String
      */
     radicalIndexToChar: function(a_radical)
@@ -466,7 +467,7 @@ Alph.ChineseDict.prototype =
         ];
 
         // if last char is quote, this is simplified radical
-        traditional = true;
+        var traditional = true;
         if (a_radical[a_radical.length - 1] == "'")
         {
             a_radical = a_radical.substr(0, a_radical.length - 1);
@@ -490,16 +491,16 @@ Alph.ChineseDict.prototype =
      * @param {String} a_data          data to search
      * @param {String} a_key           key to search for
      *
-     * @return remainder of line following key, or empty string if key not found
+     * @returns remainder of line following key, or empty string if key not found
      * @type String
      */
     linearSearch: function(a_data, a_key)
     {
-        fi = a_data.indexOf(a_key);
+        var fi = a_data.indexOf(a_key);
         if (fi == - 1)
             return "";
 
-        text = a_data.substring(fi + a_key.length,
+        var text = a_data.substring(fi + a_key.length,
                                 a_data.indexOf("\n", fi));
 
         // strip trailing carriage return or blank
@@ -518,55 +519,55 @@ Alph.ChineseDict.prototype =
      *
      * @param {String} a_hanzi     character to find info for
      * 
-     * @return info in XML format (following lexicon schema)
+     * @returns info in XML format (following lexicon schema)
      *         or empty string if not found
      * @type String
      */
     hanziInfo: function(a_hanzi)
     {
         // find lines matching this character
-        unicode = this.unicodeInfo(a_hanzi);
-        lines = this.hanziData.findData(unicode);
+        var unicode = this.unicodeInfo(a_hanzi);
+        var lines = this.d_hanziData.findData(unicode);
         if (!lines)
             return "";
 
-        total = 0;
+        var total = 0;
 
         // Mandarin pronunciation
-        mand = this.linearSearch(lines, "\tkMandarin\t");
+        var mand = this.linearSearch(lines, "\tkMandarin\t");
         mand = this.formatPinyin(mand.toLowerCase());
         total += mand.length;
 
         // Total stroke count
-        stroke = 0;
+        var stroke = 0;
 //      stroke = this.linearSearch(lines, "\tkTotalStrokes\t");
         total += stroke.length;
 
         // Definition
-        def = this.linearSearch(lines, "\tkDefinition\t");
+        var def = this.linearSearch(lines, "\tkDefinition\t");
         total += def.length;
 
         // Cantonese pronunciation
-        cant = this.linearSearch(lines, "\tkCantonese\t");
+        var cant = this.linearSearch(lines, "\tkCantonese\t");
         total += cant.length;
 
         // Tang pronunciation
-        tang = this.linearSearch(lines, "\tkTang\t");
+        var tang = this.linearSearch(lines, "\tkTang\t");
         total += tang.length;
 
         // Frequency
-        freq = this.linearSearch(lines, "\tkFrequency\t");
+        var freq = this.linearSearch(lines, "\tkFrequency\t");
         total += freq.length;
 
         // Radical/stroke
-        rstr = this.linearSearch(lines, "\tkRSUnicode\t");
+        var rstr = this.linearSearch(lines, "\tkRSUnicode\t");
         total += rstr.length;
 
         // if no useful info, return failure
         if (total == 0)
             return "";
 
-        xmlOut = "<entry><dict>";
+        var xmlOut = "<entry><dict>";
         xmlOut += "<hdwd xml:lang=\"chi\">" + a_hanzi + "</hdwd>";
         if (mand.length > 0)
             xmlOut += "<pron>" + mand + "</pron>";
@@ -579,7 +580,7 @@ Alph.ChineseDict.prototype =
         if (rstr.length > 0)
         {
             // split first radical.stroke
-            firstRstr = rstr.split(" ")[0].split(".");
+            var firstRstr = rstr.split(" ")[0].split(".");
             xmlOut += "<note>Radical " +
                       this.radicalIndexToChar(firstRstr[0]) +
                       " (" + rstr + ")" +

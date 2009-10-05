@@ -6,22 +6,4 @@
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script type="application/x-javascript" src="chrome://alpheios-chinese/content/alpheios-chinese-langtool.js" />
     <script type="application/x-javascript" src="chrome://alpheios-chinese/content/alpheios-chinese-dict.js" />
-     <stringbundleset id="stringbundleset">
-        <stringbundle id="alpheios-strings-chinese" 
-                      src="chrome://alpheios-chinese/locale/alpheios-chinese.properties"/>
-    </stringbundleset>
-    <menupopup id="alpheios-lang-popup-cm">
-        <menuitem id="alpheios-cm-lang-chinese"
-                  label="&alpheios.lang.chinese;"
-                  value="chinese"
-                  type="checkbox"
-                  hidden="false"/>
-    </menupopup>
-    <menupopup id="alpheios-lang-popup-tm">
-        <menuitem id="alpheios-tm-lang-chinese"
-                  label="&alpheios.lang.chinese;"
-                  value="chinese"
-                  type="checkbox"
-                  hidden="false"/>
-    </menupopup>  
 </overlay>

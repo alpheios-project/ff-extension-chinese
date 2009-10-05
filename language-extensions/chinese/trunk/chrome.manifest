@@ -4,6 +4,5 @@ locale	alpheios-chinese	en-US		jar:chrome/alpheios-chinese.jar!/locale/en-US/
 skin	alpheios-chinese	classic/1.0	jar:chrome/alpheios-chinese.jar!/skin/
 
 overlay chrome://alpheios/content/alpheios-overlay.xul    chrome://alpheios-chinese/content/alpheios-chinese.xul
-overlay chrome://alpheios/content/alpheios-prefs.xul    chrome://alpheios-chinese/content/alpheios-chinese-prefs.xul
 style   chrome://global/content/customizeToolbar.xul    chrome://alpheios-chinese/skin/alpheios-chinese.css
 
