@@ -30,7 +30,7 @@
                 <!-- Alpheios -->
                 <em:id>{4816253c-3208-49d8-9557-0745a5508299}</em:id>
                 <em:minVersion>1.0alpha4a</em:minVersion>
-                <em:maxVersion>1.0alpha*.*</em:maxVersion>
+                <em:maxVersion>1.0beta*.*</em:maxVersion>
             </Description>
         </em:requires>
 	</Description>
