@@ -1,32 +1,32 @@
 /**
  * @fileoverview Alph.ChineseDict - adaptation of PeraPera-Kun's cpkdata.js
- *  
- * @author
- * <pre>
- * PeraPera-Kun 
+ * Copyright 2008-2010 Cantus Foundation
+ * http://alpheios.net
+ * 
+ * Based upon PeraPera-Kun
  * A modded version of Rikai-Chan by Justin Kovalchuk
  * Original Author: Jonathan Zarate
- * Copyright (C) 2005-2006
+ * Copyright (C) 2005-2006 
  * http://www.polarcloud.com/
+ * 
  * Based on rikaiXUL 0.4 by Todd Rudick
  * http://rikaixul.mozdev.org/
- * ---
  * 
- * This program is free software; you can redistribute it and/or modify
+ * This file is part of Alpheios.
+ * 
+ * Alpheios is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
+ * 
+ * Alpheios is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *G NU General Public License for more details.
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- * </pre>
+ * GNU General Public License for more details.
  * 
- * @version $Id$
- */
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */ 
 
 /**
  * @class Alph.ChineseDict contains the Chinese dictionary lookup functionality.
