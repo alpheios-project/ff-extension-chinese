@@ -121,6 +121,7 @@
 	        	<include name="content/*.xul" />
 	        	<include name="content/*.dat" />
 	        	<include name="content/*.idx" />
+	        	<include name="content/*.txt" />
 	        	<include name="locale/**" />
 	            <include name="skin/**" />
 	            <exclude name="**/.*" />

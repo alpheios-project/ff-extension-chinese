@@ -10,4 +10,4 @@ pref("extensions.alpheios.chinese.methods.startup",'loadDictionary');
 pref("extensions.alpheios.chinese.languagecode","zh");            
 pref("extensions.alpheios.chinese.popuptrigger","mousemove");          
 pref("extensions.alpheios.chinese.url.speech", 'http://localhost:8200/speech?voice=zh+f1?word=<WORD>');
-pref("extensions.alpheios.chinese.features.alpheios-speech",true);
+pref("extensions.alpheios.chinese.features.alpheios-speech",false);
